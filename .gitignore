@@ -1,3 +1,7 @@
 .idea/
 .vscode/
 
+# Data
+data/train
+data/val
+data/test

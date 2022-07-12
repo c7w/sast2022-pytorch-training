@@ -1,0 +1,21 @@
+本数据集采用《计算机图形学基础》课程“风景图片生成”作业的训练集构建而成。
+
+This dataset was built from "Landscape Image Generation" homework of `Introduction to Computer Graphics` course.
+
+=== 以下为课程作业用数据集原版权信息 ===
+
+研究人员只能将数据库用于非商业研究和教育目的。
+清华大学对数据库不作任何陈述或保证，包括但不限于不侵权或适用于特定目的的保证。
+研究人员对其对数据库的使用承担全部责任，并应对 Jittor 团队、清华大学（包括其员工、受托人、官员和代理人）因研究人员使用数据库而引起的任何和所有索赔进行辩护和赔偿，包括但不限于研究人员使用他或她可能从数据库中创建的任何受版权保护的图像副本。
+研究人员可以向研究人员和同事提供对数据库的访问权限，前提是他们首先同意受这些条款和条件的约束。
+清华大学保留随时终止研究人员访问数据库的权利。
+如果研究人员受雇于营利性商业实体，研究人员的雇主也应受这些条款和条件的约束，研究人员在此声明他或她完全有权代表该雇主签订本协议。
+中国法律适用于本协议项下的所有争议。
+
+Researcher shall use the Database only for non-commercial research and educational purposes.
+Tsinghua University make no representations or warranties regarding the Database, including but not limited to warranties of non-infringement or fitness for a particular purpose.
+Researcher accepts full responsibility for his or her use of the Database and shall defend and indemnify the Jittor team, Tsinghua University, including their employees, Trustees, officers and agents, against any and all claims arising from Researcher's use of the Database, including but not limited to Researcher's use of any copies of copyrighted images that he or she may create from the Database.
+Researcher may provide research associates and colleagues with access to the Database provided that they first agree to be bound by these terms and conditions.
+Tsinghua University reserve the right to terminate Researcher's access to the Database at any time.
+If Researcher is employed by a for-profit, commercial entity, Researcher's employer shall also be bound by these terms and conditions, and Researcher hereby represents that he or she is fully authorized to enter into this agreement on behalf of such employer.
+The law of China shall apply to all disputes under this agreement.
