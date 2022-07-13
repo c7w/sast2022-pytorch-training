@@ -1,7 +1,11 @@
 .idea/
 .vscode/
+__pycache__/
 
 # Data
 data/train
 data/val
 data/test
+
+# Saved ckpts
+save/

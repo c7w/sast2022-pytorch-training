@@ -13,7 +13,7 @@
 + SubTask 1：数据预处理（45 p.t.s）
 + SubTask 2：训练框架搭建（60 p.t.s）
 + SubTask 3：结果提交（30 p.t.s）
-+ SubTask 4：代码整理与开源（10 p.t.s）
++ SubTask 4：代码整理与开源（Bonus. 10 p.t.s）
 
 
 
@@ -59,15 +59,15 @@ pip install -r requirements.txt
 
 
 
-## 训练框架搭建
+## 训练框架搭建（60 p.t.s）
 
 
 
-## 结果提交
+## 结果提交（30 p.t.s）
 
 
 
-## 代码整理与开源
+## 代码整理与开源（Bonus. 10 p.t.s）
 
 请整理你的代码，留足充分的注释后，向大家说明你的代码的使用方式。在向远程仓库推送文件时注意不要提交数据集与你的模型存档点。最后，在[作业仓库](https://github.com/c7w/sast2022-pytorch-training)内新建 Issue，附上自己在 “结果提交” 节的测试结果，然后发送邮件到 cc7w@foxmail.com 说明你的 Issue ID 和学号，方便我们后续统计大家的参与情况与发放服务器作为奖励。
 
