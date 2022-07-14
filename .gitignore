@@ -3,6 +3,7 @@
 __pycache__/
 
 # Data
+data.zip
 data/train
 data/val
 data/test
