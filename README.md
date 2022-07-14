@@ -62,7 +62,8 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 也就是说，对于一张图片，我们要判断其中有没有山、有没有天空、有没有水，以此来实现对图片打“标签”的效果。接下来我们便要对这些图片及其标签进行预处理，其步骤为：
 
-对于一张图片，如果其中标记为 “Mountain” 像素的个数**超过**了总像素的 20%，我们就认为这张图片中含有 “Mountain”。同理，如果一张图片中标记为 “Sky”、“Water”、“Human Factor” 的像素个数超过了总像素个数的 20%，我们就认为这张图片中含有 “Sky”、“Water”、“Human Factor”。
+对于一张图片，如果其中标记为 “Mountain” 像素的个数**超过**了总像素的 20%，我们就认为这张图片中含有 “Mountain”。同理，如果一张图片中标记为 “Sky”、“Water” 的像素个数超过了总像素个数的 
+20%，我们就认为这张图片中含有 “Sky”、“Water”。
 
 ### 数据预处理（45 p.t.s）
 
