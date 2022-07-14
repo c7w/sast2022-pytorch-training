@@ -9,9 +9,12 @@ from argparse import ArgumentParser
 def calc_label(label: np.ndarray, threshold: float):
     """
     Calc label category statistics.
+    For all label_ids in `label` array, calculate the total number of mountains (namely how many label_ids is in [0,7]),
+    if this number is greater than threshold * sizeof label, then mark the `mountain` field in return dictionary as
+    True, else as False.
     :param label: A numpy array, shaped (H, W).
     :param threshold: float number.
-    :return: {"mountain": bool, "sky": bool, "water": bool, "human": bool}
+    :return: {"mountain": bool, "sky": bool, "water": bool}
     """
 
     label2id = {
@@ -20,9 +23,10 @@ def calc_label(label: np.ndarray, threshold: float):
         "water": [2, 3, 8, 16, 20],
     }
 
-    return {
-        k: np.isin(label, v).sum() > (np.ones_like(label).sum() * threshold) for k, v in label2id.items()
-    }
+    # TODO Start: Finish this function #
+    raise NotImplementedError
+    return {"mountain": True, "sky": True, "water": True}
+    # TODO End #
 
 
 def process_data(mode: str, threshold: float):
@@ -33,8 +37,13 @@ def process_data(mode: str, threshold: float):
     :return: None. Write a file to the corresponding path.
     """
     working_dir = (Path(__file__) / ".." / ".." / "data" / mode).resolve()
-    image_dir = working_dir / "imgs"
-    label_dir = working_dir / "labels"
+
+    # TODO Start: Append directory in pathlib.Path, so that they point to `./data/{mode}/imgs`
+    #  and `./data/{mode}/labels` #
+    image_dir = None
+    label_dir = None
+    # TODO End #
+
     print(f"[Data] Now in {working_dir}...")
 
     out_str = "img_path,mountain,sky,water\n"
@@ -43,7 +52,11 @@ def process_data(mode: str, threshold: float):
     assert os.path.exists(label_dir), "No directory called `labels` found in working " \
                                                                 "directory!"
 
-    filename_list = [x[:-4] for x in os.listdir(image_dir)]
+    # TODO Start: Construct a list of filenames without suffix from image_dir, like ['48432_b67ec6cd63_b',
+    #  '70190_90b25efb3b_b', ...] #
+    filename_list = [None, None, ...]
+    # TODO End #
+
     for idx, file_name in tqdm(enumerate(filename_list), total=len(filename_list)):
         label_path = str(label_dir / f"{file_name}.png")
         label = Image.open(label_path)
@@ -56,8 +69,9 @@ def process_data(mode: str, threshold: float):
         #     break
 
     # After all file has been processed, write `out_str` to `{working_dir}/file.txt`
-    with open(f"{working_dir}/file.txt", 'w+') as file:
-        file.write(out_str)
+    # TODO Start: Write out_str to `{working_dir}/file.txt` in overwritten mode #
+    raise NotImplementedError
+    # TODO End #
 
 
 if __name__ == "__main__":

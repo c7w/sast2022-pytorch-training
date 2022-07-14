@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 def calc_accuracy(pred_label, gt_label):
     """
-    :param pred_label: A list contains of predicted possibilities of labels in type np.ndarray.
+    :param pred_label: A list contains of predicted labels in type np.ndarray.
     :param gt_label:  A list contains ground truths.
     :return: A number between 0 and 1 representing the accuracy rate.
     """
@@ -22,5 +22,7 @@ def draw_loss_curve(args, loss_list):
     """
     os.makedirs(f"{args.save_path}/{args.task_name}", exist_ok=True)
     plt.cla()
-    plt.plot(range(len(loss_list)), loss_list)
+    # TODO Start: Plot curve using values in loss_list #
+    plt.plot([], [])
+    # TODO End #
     plt.savefig(f"{args.save_path}/{args.task_name}/loss.png")

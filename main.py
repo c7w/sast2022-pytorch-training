@@ -5,7 +5,8 @@ import torch.optim as optim
 from argparse import ArgumentParser
 
 from models.MultiClassificationModel import MultiClassificationModel
-from utils.experiment import get_loader, save_model, load_model, train_one_epoch, evaluate_one_epoch
+from utils.experiment import get_loader, save_model, load_model, train_one_epoch, evaluate_one_epoch, \
+    initiate_environment
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -22,8 +23,9 @@ if __name__ == "__main__":
     parser.add_argument("--checkpoint_path", type=str, default="", help="Checkpoint path to load.")
     parser.add_argument("--save_path", type=str, default="./save/", help="Checkpoint path to save.")
     parser.add_argument("--save_freq", type=int, default=1, help="Save model every how many epochs.")
-    parser.add_argument("--val_freq", type=int, default=1, help="Save model every how many epochs.")
-    parser.add_argument("--print_freq", type=int, default=1, help="Save model every how many batches.")
+    # TODO Start: Define `args.val_freq` and `args.print_freq` here #
+
+    # TODO End #
     parser.add_argument("--batch_size", type=int, default=8, help="Entry numbers every batch.")
 
     # Optimizer
@@ -32,6 +34,7 @@ if __name__ == "__main__":
     parser.add_argument("--weight_decay", type=float, default=0.02, help="Weight decay regularization for model.")
 
     args = parser.parse_args()
+    initiate_environment(args)
 
     # Prepare dataloader
     loader, val_loader = get_loader(args)
@@ -41,7 +44,9 @@ if __name__ == "__main__":
     if args.optimizer == "SGD":
         optimizer = optim.SGD(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     elif args.optimizer == "Adam":
-        optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+        # TODO Start: define Adam optimizer here #
+        optimizer = None
+        # TODO End #
     else:
         raise NotImplementedError("You must specify a valid optimizer type!")
 

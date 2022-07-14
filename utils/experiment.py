@@ -21,19 +21,23 @@ def initiate_environment(args):
     np.random.seed(args.rng_seed)
     random.seed(args.rng_seed)
 
+
 def get_loader(args):
     num_workers = args.num_workers
     val_dataset = LandScapeDataset("val")
+    val_dataloader = DataLoader(val_dataset, shuffle=False, num_workers=num_workers, batch_size=args.batch_size)
+
     if args.mode == "train":
         dataset = LandScapeDataset(args.mode)
-        dataloader = DataLoader(dataset, shuffle=True, num_workers=num_workers, batch_size=args.batch_size)
+        # TODO Start: Finish dataloader here #
+        dataloader = None
+        # TODO End #
     elif args.mode == "test":
         dataset = LandScapeDataset(args.mode)
         dataloader = DataLoader(dataset, shuffle=False, num_workers=num_workers, batch_size=args.batch_size)
     else:
         raise NotImplementedError("You must specify either to train or to test!")
 
-    val_dataloader = DataLoader(val_dataset, shuffle=False, num_workers=num_workers, batch_size=args.batch_size)
     return dataloader, val_dataloader
 
 
@@ -50,7 +54,9 @@ def save_model(args, model, optimizer, epoch="last"):
 def load_model(args, model, optimizer):
     checkpoint = torch.load(args.checkpoint_path)
     model.load_state_dict(checkpoint['model'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    # TODO Start: load state dict for optimizer #
+
+    # TODO End #
 
 
 def train_one_epoch(epoch, train_loader, args, model, criterion, optimizer, stat_dict):
@@ -66,23 +72,25 @@ def train_one_epoch(epoch, train_loader, args, model, criterion, optimizer, stat
     model.train()
     start_time = time.time()
 
-    print(f"==> [Epoch {epoch+1}] Starting Training...")
+    print(f"==> [Epoch {epoch + 1}] Starting Training...")
     for train_idx, train_data in tqdm(enumerate(train_loader), total=len(train_loader)):
         train_input, train_label = train_data["image"].to(args.device), train_data["label"].to(args.device)
         pred_label = model(train_input)
 
-        optimizer.zero_grad()
-        loss = criterion(pred_label.reshape(-1, 2), train_label.reshape(-1).long())
-        loss.backward()
-        optimizer.step()
+        # TODO Start: understand this...
+        # optimizer.zero_grad()
+        # loss = criterion(pred_label.reshape(-1, 2), train_label.reshape(-1).long())
+        # loss.backward()
+        # optimizer.step()
+        # TODO END
 
         if train_idx % args.print_freq == 0:
             # Calc accuracy for display of current batch
             stat_dict["train/loss"].append(loss.detach().item())
-            tqdm.write(f"[Epoch {epoch+1} / {args.max_epoch}] [Batch {train_idx+1} / {len(train_loader)}] " +
+            tqdm.write(f"[Epoch {epoch + 1} / {args.max_epoch}] [Batch {train_idx + 1} / {len(train_loader)}] " +
                        f"Loss {loss:.4f}")
             draw_loss_curve(args, stat_dict["train/loss"])
-    print(f"==> [Epoch {epoch+1}] Finished in {((time.time() - start_time)/60):.2f} minutes.")
+    print(f"==> [Epoch {epoch + 1}] Finished in {((time.time() - start_time) / 60):.2f} minutes.")
 
 
 def evaluate_one_epoch(loader, args, model, criterion=None, save_name=None):
@@ -108,7 +116,7 @@ def evaluate_one_epoch(loader, args, model, criterion=None, save_name=None):
         results = [result.argmax(axis=-1) for result in results]
         if criterion == "acc":
             acc = calc_accuracy(results, ground_truths)
-            print(f"==> [Eval] Current accuracy: {(acc*100):.2f}%")
+            print(f"==> [Eval] Current accuracy: {(acc * 100):.2f}%")
 
         if save_name is not None:
             out_str = ""
