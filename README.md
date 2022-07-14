@@ -1,4 +1,4 @@
-# PyTorch 图像分类作业
+# 数据分析 & PyTorch 图像多分类作业
 <center>By c7w</center>
 
 ## 作业目标
@@ -28,7 +28,7 @@ conda activate ai
 pip install -r requirements.txt
 ```
 
-如果你是 NVIDIA 显卡的受害者，那么恭喜你可以使用 CUDA 加速的相关库。你可以理解成充分利用你的显卡的算力来做并行计算。如果你有一张显存大于 4 GB 的显卡就非常符合本次任务的要求：请删除 `requirements.txt` 中 `torch==1.12.0` 这一行，然后安装带有 CUDA 加速版本的 `torch`：
+如果你是 NVIDIA 显卡的受害者，那么恭喜你可以使用 CUDA 加速的相关库。你可以理解成你可以充分利用你显卡的算力来做并行计算。一张显存大于等于 4 GB 的显卡就非常符合本次任务的要求：请删除 `requirements.txt` 中 `torch==1.12.0` 这一行，然后安装带有 CUDA 加速版本的 `torch`：
 
 ```bash
 # Windows / Linux
@@ -36,6 +36,8 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 # macOS is not supported yet for CUDA :(
 # Link copied from https://pytorch.org/
 ```
+
+如果没有符合上述要求的显卡也没关系，你的 CPU 和风扇已经做好了煎鸡蛋的准备。经测试，未经 CUDA 加速的机器使用 CPU 训练一轮大概需要 30 ~ 60 min，这时间在 CUDA 加速后缩短为 6 ~ 10 min。我们默认选取训练 10 轮，你可以在后续的环节进行配置调整。
 
 
 
@@ -51,8 +53,8 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 在这一部分我们需要撰写数据预处理的相关函数，你可能会用到 `Pillow`、`NumPy` 等库。
 
-具体来说，我们需要统计 `train` 中 `imgs` 下图片对应的分类标签。`imgs` 中图片的**逐像素**标注位于 `train/labels` 
-下，你可以将每张图片认为是一张灰度图，存储了 `0-255` 这 256 个数的其中之一。标签 ID 与标签的对应关系如下：
+我们首先来讲解 `./data` 下的文件。`imgs` 中图片的**逐像素**标注位于 `train/labels` 
+下的同名文件中。你可以将每张逐像素标注认为是一张灰度图，存储了 `0-255` 这 256 个数的其中之一。标签 ID 与标签的对应关系如下：
 
 | 标签 ID         | 标签类别 |
 | --------------- | -------- |
@@ -60,14 +62,15 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 | 1               | Sky      |
 | 2, 3, 8, 16, 20 | Water    |
 
-也就是说，对于一张图片，我们要判断其中有没有山、有没有天空、有没有水，以此来实现对图片打“标签”的效果。接下来我们便要对这些图片及其标签进行预处理，其步骤为：
+因为这些数值都非常接近 0（表征黑色），所以你肉眼无法区分像素点所代表的类别。
 
-对于一张图片，如果其中标记为 “Mountain” 像素的个数**超过**了总像素的 20%，我们就认为这张图片中含有 “Mountain”。同理，如果一张图片中标记为 “Sky”、“Water” 的像素个数超过了总像素个数的 
-20%，我们就认为这张图片中含有 “Sky”、“Water”。
+我们的目的是，对于一张 `imgs` 下的图片，读取其在 `labels` 下的对应标注：我们要判断原图中有没有山、有没有天空、有没有水，以此来实现对图片打“标签”的效果。接下来我们便要对这些图片及其标签进行预处理，其步骤为：
+
+对于一张图片，如果其中标记为 “Mountain” 像素的个数**超过**了总像素的 20%，我们就认为这张图片中含有 “Mountain”。同理，如果一张图片中标记为 “Sky”、“Water” 的像素个数超过了总像素个数的 20%，我们就认为这张图片中含有 “Sky”、“Water”。
 
 ### 数据预处理（45 p.t.s）
 
-接下来请阅读并补全 `datasets/dataset_landscape_generator.py` 中的代码，以达到可以产生与 `data/val/file.txt` 相类似的 `data/train/file.txt` 的效果。未达成目标，你只需要修改 `# TODO Start # ` 与 `# TODO End #` 之间的内容。
+接下来请阅读并补全 `datasets/dataset_landscape_generator.py` 中的代码，以达到可以产生与 `data/val/file.txt` 相类似的 `data/train/file.txt` 的效果。为达成目标，你只需要修改 `# TODO Start # ` 与 `# TODO End #` 之间的内容。
 
 在你完成这部分后，你应该在 `./data/train` 下生成了一个 `file.txt` 文件。你可以与[这个文件](https://github.com/c7w/sast2022-pytorch-training/releases/download/hw/file.txt)作对比以查看中间结果是否正确。
 
@@ -89,7 +92,7 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 ## 训练框架搭建（60 p.t.s）
 
-在这里我们会体验一次传统的 PyTorch 神经网络训练框架的搭建过程。这不仅仅是一个应用性的研究课题，也是一个工程项目，因此请注意添加合理的注释。接下来我们继续细分成不同子任务来完成这个搭建流程。
+在这里我们会体验一次传统的 PyTorch 神经网络训练框架的搭建过程。这不仅仅是一个应用性的研究课题，也是一个工程项目，因此在编写时请注意你的项目规范。接下来我们继续细分成不同子任务来完成这个搭建流程。
 
 
 
@@ -97,7 +100,7 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 在这部分我们需要用到 `matplotlib` 中的有关绘制折线图的工具，撰写 `./utils/metric.py` 中的 `draw_loss_curve` 函数。你绘制的 $x$ 坐标轴应该是 `loss_list` 列表的下标，$y$ 坐标轴为该列表中元素的值。请根据函数注释补全有关内容。你最终绘制的折线图应类似于：
 
-![loss](https://s2.loli.net/2022/07/14/TkdCYhIGv4LN23Q.png)
+![loss](https://s2.loli.net/2022/07/15/qSQLUGdXwoN6Ev1.png)
 
 **【任务清单】**
 
@@ -183,14 +186,18 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 ## 结果提交（30 p.t.s）
 
-复制你测试出来的 `.txt` 文件，提交到 http://121.5.165.232:14000 中。为方便我们统计大家的参与情况，后续发放服务器作为奖励，请正确填写自己的学号。你可以附上自己的 GitHub Repo 链接作为我们的 Bonus 评定内容。具体评分标准这里不予公开，但平均正确率至少达到 75% 你就能取得本项目的所有分数。
+一般我们不会检查前面几项你的完成情况，一旦你提交了最终结果前面的项目即记为满分。请复制你测试出来的 `.txt` 文件，提交到 http://121.5.165.232:14000 中刷新页面。为防止通过多次提交恶意获取测试集答案，我们对测试结果进行了四舍五入后返回。为方便我们统计大家的参与情况，后续发放服务器作为奖励，请正确填写自己的学号。具体评分标准我们这里不予公开，但正确运行的代码应至少在本项目中取得 80% 及以上的分数。
+
+参数调优是一个经久不衰的话题：在上述流程中，有哪些参数可以供我们调整，使得模型可能达到更好的效果？你可以多做尝试，甚至可以大胆地更换模型架构，或是加载其它预训练过的模型作为基础，你只需要在最终的报告中写明你的做法即可 :)
 
 
 
 
 ## 代码整理与开源（Bonus. 10 p.t.s）
 
-请整理你的代码，留足充分的注释后，向大家说明你的代码的使用方式。在向远程仓库推送文件时注意不要提交数据集与你的模型存档点，存档点的合理公开方式应该是放在云盘中并分享下载链接。
+作为我们的 Bonus 评定内容，你可以在完成作业后，将代码进行托管，如 GitHub， Tsinghua Git 等，然后在原仓库中新建 Issue，提交代码仓库地址。请整理你的代码，留足充分的注释后，向大家说明你的代码的使用方式。在向远程仓库推送文件时注意不要提交数据集与你的模型存档点，存档点的合理公开方式应该是放在云盘中并分享下载链接。
+
+此外，如果你没有提交最终结果，想获得部分分数的认定，你也应该通过这种渠道进行申请。如有疑问请联系负责人 cc7w@foxmail.com，微信号 c7wc7w。
 
 
 
@@ -206,4 +213,3 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 20 "lake", "bridge", "field", "road", "railing",
 25 "fence", "ship", "house", "other"
 ```
-
