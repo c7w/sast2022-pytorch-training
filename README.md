@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ```bash
 # Windows / Linux
-pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+conda install pytorch torchvision cudatoolkit=11.3 -c pytorch
 # macOS is not supported yet for CUDA :(
 # Link copied from https://pytorch.org/
 ```
