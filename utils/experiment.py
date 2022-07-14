@@ -66,7 +66,7 @@ def train_one_epoch(epoch, train_loader, args, model, criterion, optimizer, stat
     model.train()
     start_time = time.time()
 
-    print(f"==> [Epoch {epoch}] Starting Training...")
+    print(f"==> [Epoch {epoch+1}] Starting Training...")
     for train_idx, train_data in tqdm(enumerate(train_loader), total=len(train_loader)):
         train_input, train_label = train_data["image"].to(args.device), train_data["label"].to(args.device)
         pred_label = model(train_input)
@@ -82,7 +82,7 @@ def train_one_epoch(epoch, train_loader, args, model, criterion, optimizer, stat
             tqdm.write(f"[Epoch {epoch+1} / {args.max_epoch}] [Batch {train_idx+1} / {len(train_loader)}] " +
                        f"Loss {loss:.4f}")
             draw_loss_curve(args, stat_dict["train/loss"])
-    print(f"==> [Epoch {epoch}] Finished in {((time.time() - start_time)/60):.2f} minutes.")
+    print(f"==> [Epoch {epoch+1}] Finished in {((time.time() - start_time)/60):.2f} minutes.")
 
 
 def evaluate_one_epoch(loader, args, model, criterion=None, save_name=None):

@@ -64,9 +64,11 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 
 对于一张图片，如果其中标记为 “Mountain” 像素的个数**超过**了总像素的 20%，我们就认为这张图片中含有 “Mountain”。同理，如果一张图片中标记为 “Sky”、“Water”、“Human Factor” 的像素个数超过了总像素个数的 20%，我们就认为这张图片中含有 “Sky”、“Water”、“Human Factor”。
 
+### 数据预处理（45 p.t.s）
+
 接下来请阅读并补全 `datasets/dataset_landscape_generator.py` 中的代码，以达到可以产生与 `data/val/file.txt` 相类似的 `data/train/file.txt` 的效果。
 
-
++ 
 
 ## 训练框架搭建（60 p.t.s）
 
