@@ -100,7 +100,7 @@ conda install pytorch torchvision cudatoolkit=11.3 -c pytorch
 
 在这部分我们需要用到 `matplotlib` 中的有关绘制折线图的工具，撰写 `./utils/metric.py` 中的 `draw_loss_curve` 函数。你绘制的 $x$ 坐标轴应该是 `loss_list` 列表的下标，$y$ 坐标轴为该列表中元素的值。请根据函数注释补全有关内容。你最终绘制的折线图应类似于：
 
-![loss](https://s2.loli.net/2022/07/15/qSQLUGdXwoN6Ev1.png)
+<img src="https://s2.loli.net/2022/07/15/qSQLUGdXwoN6Ev1.png" alt="loss" style="zoom:50%;" />
 
 **【任务清单】**
 
