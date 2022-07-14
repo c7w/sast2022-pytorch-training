@@ -1,6 +1,8 @@
 import os
 import time
 import torch
+import random
+import numpy as np
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 
@@ -8,8 +10,19 @@ from utils.metric import calc_accuracy, draw_loss_curve
 from datasets.dataset_landscape import LandScapeDataset
 
 
+def initiate_environment(args):
+    """
+    initiate randomness.
+    :param args: Runtime arguments.
+    :return:
+    """
+    torch.manual_seed(args.rng_seed)
+    torch.cuda.manual_seed_all(args.rng_seed)
+    np.random.seed(args.rng_seed)
+    random.seed(args.rng_seed)
+
 def get_loader(args):
-    num_workers = 8
+    num_workers = args.num_workers
     val_dataset = LandScapeDataset("val")
     if args.mode == "train":
         dataset = LandScapeDataset(args.mode)
@@ -55,7 +68,7 @@ def train_one_epoch(epoch, train_loader, args, model, criterion, optimizer, stat
 
     print(f"==> [Epoch {epoch}] Starting Training...")
     for train_idx, train_data in tqdm(enumerate(train_loader), total=len(train_loader)):
-        train_input, train_label = train_data["image"], train_data["label"]
+        train_input, train_label = train_data["image"].to(args.device), train_data["label"].to(args.device)
         pred_label = model(train_input)
 
         optimizer.zero_grad()
@@ -87,7 +100,7 @@ def evaluate_one_epoch(loader, args, model, criterion=None, save_name=None):
     print(f"==> [Eval] Start evaluating model...")
     with torch.no_grad():
         for data_idx, data in tqdm(enumerate(loader), total=len(loader)):
-            pred = model(data['image'])
+            pred = model(data['image'].to(args.device))
             results.append(pred.cpu().numpy())
             if 'label' in data:
                 ground_truths.append(data['label'].cpu().numpy())

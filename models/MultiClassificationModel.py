@@ -61,11 +61,11 @@ class VGG16(nn.Module):
 class ClassificationHead(nn.Module):
     def __init__(self):
         super(ClassificationHead, self).__init__()
-        self.linear = [
+        self.linear = nn.ModuleList([
             nn.Linear(512 * (1024 // 4 // 32) * (768 // 4 // 32), 64),
             nn.Linear(64, 16),
             nn.Linear(16, 2),
-        ]
+        ])
         self.relu = nn.ReLU()
         self.softmax = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout()

@@ -20,7 +20,7 @@
 ## 环境配置与安装（15 p.t.s）
 ### 准备 `Python` 环境（10 p.t.s）
 
-我们在前面的课程已经学习过 conda 的使用，你应该可以理解下面指令的作用。
+我们在前面的课程已经学习过 `conda` 环境管理器的使用，你应该可以理解下面指令的作用。
 
 ```bash
 conda create -n ai python=3.8
@@ -28,7 +28,16 @@ conda activate ai
 pip install -r requirements.txt
 ```
 
-然后，执行 `python3 tests/main.py <你的学号>`，这也是之后作业自动评测的脚本执行方法。
+如果你是 NVIDIA 显卡的受害者，那么恭喜你可以使用 CUDA 加速的相关库。你可以理解成充分利用你的显卡的算力来做并行计算。如果你有一张显存大于 4 GB 的显卡就非常符合本次任务的要求：请删除 `requirements.txt` 中 `torch==1.12.0` 这一行，然后安装带有 CUDA 加速版本的 `torch`：
+
+```bash
+# Windows / Linux
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+# macOS is not supported yet for CUDA :(
+# Link copied from https://pytorch.org/
+```
+
+
 
 ### 准备数据集（5 p.t.s）
 

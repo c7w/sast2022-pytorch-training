@@ -12,6 +12,9 @@ if __name__ == "__main__":
     # Meta info
     parser.add_argument("--task_name", type=str, default="baseline", help="Task name to save.")
     parser.add_argument("--mode", type=str, choices=["train", "test"], default="train", help="Mode to run.")
+    parser.add_argument("--device", type=int, default=0 if torch.cuda.is_available() else "cpu", help="Device number.")
+    parser.add_argument("--num_workers", type=int, default=0, help="Spawn how many processes to load data.")
+    parser.add_argument("--rng_seed", type=int, default=114514, help='manual seed')
 
     # Training
     parser.add_argument("--num_epoch", type=int, default=0, help="Current epoch number.")
@@ -44,6 +47,7 @@ if __name__ == "__main__":
 
     if args.checkpoint_path:
         load_model(args, model, optimizer)
+    model = model.to(args.device)
 
     # Define loss function
     criterion = nn.CrossEntropyLoss()
