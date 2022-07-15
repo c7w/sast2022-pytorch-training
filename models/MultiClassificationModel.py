@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from typing import List
 
+from torch.utils import model_zoo
+
 
 class MultiClassificationModel(nn.Module):
     def __init__(self, num_categories=3):
@@ -53,6 +55,9 @@ class VGG16(nn.Module):
                                   256, 256, 256, 'M',
                                   512, 512, 512, 'M',
                                   512, 512, 512, 'M'])
+        ckpt = model_zoo.load_url('https://download.pytorch.org/models/vgg16-397923af.pth', "./save/")
+        ckpt = {k[len("feature"):]: v for k, v in ckpt.items()}
+        self.model.load_state_dict(ckpt, strict=False)
 
     def forward(self, data):
         return self.model(data)

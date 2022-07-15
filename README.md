@@ -37,6 +37,8 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 # Link copied from https://pytorch.org/
 ```
 
+如果你的后续实现正确，那么不带 CUDA 加速的一轮训练大概需要 60 min 左右的时间，带 CUDA 加速的一轮训练大概需要 10 min 左右的时间。我们默认的训练轮数设置为 10 轮，你可以根据自己的需要在后续进行修改。
+
 
 
 ### 准备数据集（5 p.t.s）
@@ -52,7 +54,7 @@ pip3 install torch torchvision torchaudio --extra-index-url https://download.pyt
 在这一部分我们需要撰写数据预处理的相关函数，你可能会用到 `Pillow`、`NumPy` 等库。
 
 具体来说，我们需要统计 `train` 中 `imgs` 下图片对应的分类标签。`imgs` 中图片的**逐像素**标注位于 `train/labels` 
-下，你可以将每张图片认为是一张灰度图，存储了 `0-255` 这 256 个数的其中之一。标签 ID 与标签的对应关系如下：
+下，你可以将每张标注认为是一张灰度图，其中每个像素存储了 `0-255` 这 256 个数的其中之一。标签 ID 与标签的对应关系如下：
 
 | 标签 ID         | 标签类别 |
 | --------------- | -------- |

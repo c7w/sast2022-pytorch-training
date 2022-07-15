@@ -5,14 +5,15 @@ import torch.optim as optim
 from argparse import ArgumentParser
 
 from models.MultiClassificationModel import MultiClassificationModel
-from utils.experiment import get_loader, save_model, load_model, train_one_epoch, evaluate_one_epoch
+from utils.experiment import get_loader, save_model, load_model, train_one_epoch, evaluate_one_epoch, \
+    initiate_environment
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # Meta info
     parser.add_argument("--task_name", type=str, default="baseline", help="Task name to save.")
     parser.add_argument("--mode", type=str, choices=["train", "test"], default="train", help="Mode to run.")
-    parser.add_argument("--device", type=int, default=0 if torch.cuda.is_available() else "cpu", help="Device number.")
+    parser.add_argument("--device", type=str, default=0 if torch.cuda.is_available() else "cpu", help="Device number.")
     parser.add_argument("--num_workers", type=int, default=0, help="Spawn how many processes to load data.")
     parser.add_argument("--rng_seed", type=int, default=114514, help='manual seed')
 
@@ -32,6 +33,8 @@ if __name__ == "__main__":
     parser.add_argument("--weight_decay", type=float, default=0.02, help="Weight decay regularization for model.")
 
     args = parser.parse_args()
+
+    initiate_environment(args)
 
     # Prepare dataloader
     loader, val_loader = get_loader(args)
