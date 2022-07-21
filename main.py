@@ -50,9 +50,9 @@ if __name__ == "__main__":
     else:
         raise NotImplementedError("You must specify a valid optimizer type!")
 
+    model = model.to(args.device)
     if args.checkpoint_path:
         load_model(args, model, optimizer)
-    model = model.to(args.device)
 
     # Define loss function
     criterion = nn.CrossEntropyLoss()
